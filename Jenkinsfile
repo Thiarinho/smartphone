@@ -27,7 +27,7 @@ pipeline {
                     branches: [[name: '*/main']],
                     extensions: [],
                     userRemoteConfigs: [[
-                        credentialsId: 'github-jenkins',
+                        credentialsId: 'github-Id',
                         url: 'https://github.com/Thiarinho/smartphone.git'
                     ]]
                 )
@@ -53,7 +53,7 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'thierno784',
+                    credentialsId: 'docker-Id',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
