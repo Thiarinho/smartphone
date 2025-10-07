@@ -2,8 +2,23 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_REPO = 'ndiaye2024'
+        DOCKER_HUB_REPO = 'thierno784'
     }
+    triggers {
+        // Pour que le pipeline démarre quand le webhook est reçu
+        GenericTrigger(
+            genericVariables: [
+                [key: 'ref', value: '$.ref'],
+                [key: 'pusher_name', value: '$.pusher.name'],
+                [key: 'commit_message', value: '$.head_commit.message']
+            ],
+            causeString: 'Push par $pusher_name sur $ref: "$commit_message"',
+            token: 'mysecret',
+            printContributedVariables: true,
+            printPostContent: true
+        )
+    }
+    
 
     stages {
         stage('Checkout') {
@@ -13,7 +28,7 @@ pipeline {
                     extensions: [],
                     userRemoteConfigs: [[
                         credentialsId: 'github-jenkins',
-                        url: 'https://github.com/ndiayekhardiata2024/Depot_Jenkins.git'
+                        url: 'https://github.com/Thiarinho/smartphone.git'
                     ]]
                 )
             }
@@ -38,7 +53,7 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'jenkinaute',
+                    credentialsId: 'thierno784',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
@@ -79,9 +94,9 @@ pipeline {
                         <p>Consultez les logs ici : <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                     </body>
                 </html>""",
-                to: 'ndiayekhardiata2024@gmail.com',
-                from: 'ndiayekhardiata2024@gmail.com',
-                replyTo: 'ndiayekhardiata2024@gmail.com',
+                to: 'thiernomane932@gmail.com',
+                from: 'thiernomane932@gmail.com',
+                replyTo: 'thiernomane932@gmail.com',
                 mimeType: 'text/html'
             )
         }
@@ -96,9 +111,9 @@ pipeline {
                         <p>Consultez les logs ici : <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                     </body>
                 </html>""",
-                to: 'ndiayekhardiata2024@gmail.com',
-                from: 'ndiayekhardiata2024@gmail.com',
-                replyTo: 'ndiayekhardiata2024@gmail.com',
+                to: 'thiernomane932@gmail.com',
+                from: 'thiernomane932@gmail.com',
+                replyTo: 'thiernomane932@gmail.com',
                 mimeType: 'text/html'
             )
         }
